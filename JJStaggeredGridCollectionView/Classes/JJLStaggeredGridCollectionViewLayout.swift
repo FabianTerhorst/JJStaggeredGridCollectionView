@@ -243,8 +243,9 @@ extension JJStaggeredGridCollectionViewLayout
             }
             for case let(kind,_) in suplementariesInside
             {
-                let attr = self.layoutAttributesForSupplementaryView(ofKind: kind, at: key)!
-                attrs.append(attr)
+                if let attr = self.layoutAttributesForSupplementaryView(ofKind: kind, at: key) {
+                    attrs.append(attr)
+                }
             }
         }
         return attrs
