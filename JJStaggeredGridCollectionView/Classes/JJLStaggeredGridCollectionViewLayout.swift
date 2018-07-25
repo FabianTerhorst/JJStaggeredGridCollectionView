@@ -32,7 +32,7 @@ public class JJStaggeredGridCollectionViewLayout: UICollectionViewFlowLayout {
         }
     }
     /// cell position type to calculate cell positions
-    @IBInspectable public var cellPositionType : JJStaggeredGridCellPositionArrangeType = .Default
+    public var cellPositionType : JJStaggeredGridCellPositionArrangeType = .Default
     {
         didSet{
             self.invalidateLayout()
