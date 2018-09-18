@@ -43,7 +43,7 @@ public class JJStaggeredGridCollectionViewLayout: UICollectionViewFlowLayout {
     fileprivate func resetMaxPos(){
         maxPos = [CGFloat](repeatElement(0, count: self.numColumns))
     }
-
+    
 }
 
 extension JJStaggeredGridCollectionViewLayout
@@ -65,7 +65,7 @@ extension JJStaggeredGridCollectionViewLayout
             var min = CGFloat.greatestFiniteMagnitude
             for a in 0..<columnPoints.count
             {
-                let colPoint = self.scrollDirection == UICollectionViewScrollDirection.vertical ? columnPoints[a].y : columnPoints[a].x
+                let colPoint = self.scrollDirection == UICollectionView.ScrollDirection.vertical ? columnPoints[a].y : columnPoints[a].x
                 if colPoint < min {
                     minIndex = a
                     min = colPoint
@@ -76,16 +76,16 @@ extension JJStaggeredGridCollectionViewLayout
         }
     }
     
-    static fileprivate func calculateWidthOrHeightToAddEachCell(fullBounds:CGRect, sectionInsets: UIEdgeInsets, numRowsOrCols:Int, interItemSpacing:CGFloat, scrollDirection: UICollectionViewScrollDirection) -> CGSize
+    static fileprivate func calculateWidthOrHeightToAddEachCell(fullBounds:CGRect, sectionInsets: UIEdgeInsets, numRowsOrCols:Int, interItemSpacing:CGFloat, scrollDirection: UICollectionView.ScrollDirection) -> CGSize
     {
         var size = CGSize(width: 0, height: 0)
         switch scrollDirection {
         case .vertical:
-        let fullWidth:CGFloat = (fullBounds.size.width - sectionInsets.left - sectionInsets.right) - (CGFloat(numRowsOrCols - 1) * interItemSpacing)
+            let fullWidth:CGFloat = (fullBounds.size.width - sectionInsets.left - sectionInsets.right) - (CGFloat(numRowsOrCols - 1) * interItemSpacing)
             size.width = ceil(fullWidth/CGFloat(numRowsOrCols))
             break
         case .horizontal:
-        let fullHeight:CGFloat = (fullBounds.size.height - sectionInsets.top - sectionInsets.bottom) - (CGFloat(numRowsOrCols - 1) * interItemSpacing)
+            let fullHeight:CGFloat = (fullBounds.size.height - sectionInsets.top - sectionInsets.bottom) - (CGFloat(numRowsOrCols - 1) * interItemSpacing)
             size.height = ceil(fullHeight / CGFloat(numRowsOrCols))
         }
         return size
@@ -126,7 +126,7 @@ extension JJStaggeredGridCollectionViewLayout
                 //header
                 let headerFooterIndexPath = IndexPath(row: 0, section: section)
                 self.ensureSuplementaryCanAddValueForIndexPath(dict: &suplementaryViews, indexPath: headerFooterIndexPath)
-                suplementaryViews[headerFooterIndexPath]?[UICollectionElementKindSectionHeader] = NSValue(cgRect:CGRect(x: minPos.x, y: minPos.y, width: headerSize.width, height: headerSize.height))
+                suplementaryViews[headerFooterIndexPath]?[UICollectionView.elementKindSectionHeader] = NSValue(cgRect:CGRect(x: minPos.x, y: minPos.y, width: headerSize.width, height: headerSize.height))
                 if ( self.scrollDirection == .vertical){
                     minPos.y += headerSize.height
                 }else
@@ -173,7 +173,7 @@ extension JJStaggeredGridCollectionViewLayout
                     minPos.y = 0
                 }
                 self.ensureSuplementaryCanAddValueForIndexPath(dict: &suplementaryViews, indexPath: headerFooterIndexPath)
-                suplementaryViews[headerFooterIndexPath]?[UICollectionElementKindSectionFooter] = NSValue(cgRect:CGRect(x: minPos.x, y: minPos.y, width: footerSize.width, height: footerSize.height))
+                suplementaryViews[headerFooterIndexPath]?[UICollectionView.elementKindSectionFooter] = NSValue(cgRect:CGRect(x: minPos.x, y: minPos.y, width: footerSize.width, height: footerSize.height))
                 if ( self.scrollDirection == .vertical){
                     minPos.y += footerSize.height + sectionInsets.bottom
                     maxPos[0] = minPos.y      //to take the footer into account for the height
@@ -198,7 +198,7 @@ extension JJStaggeredGridCollectionViewLayout
                 ) -> UICollectionViewLayoutAttributes in
                 return elem.copy() as! UICollectionViewLayoutAttributes
             }) ??
-            []
+                []
         
         var cellsFound:[IndexPath] = []
         var supplementariesFound:[IndexPath:[String:NSValue]] = [:]
@@ -262,7 +262,7 @@ extension JJStaggeredGridCollectionViewLayout
     open override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         let attr = super.layoutAttributesForSupplementaryView(ofKind: elementKind, at: indexPath)?.copy() as? UICollectionViewLayoutAttributes
         if let rect = suplementaryViews[indexPath]?[elementKind]?.cgRectValue {
-           attr?.frame = rect
+            attr?.frame = rect
         }
         return attr
     }
